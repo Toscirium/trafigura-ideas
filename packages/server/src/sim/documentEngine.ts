@@ -22,8 +22,10 @@ import { clock } from './clock.js';
 
 // Real Claude API calls happen on this tick — kept slow and infrequent by design (a
 // live desk demo, not a load test) so leaving the app open doesn't run up API spend.
-const TICK_MS = 60_000;
-const DOCUMENT_PROBABILITY = 0.7;
+// Deliberately NOT scaled by clock.speed (unlike the other sim engines): fast-forwarding
+// the demo must not multiply real, billed API calls.
+const TICK_MS = 300_000; // 5 min
+const DOCUMENT_PROBABILITY = 0.2; // ~1 real Claude call every ~25 min on average
 const LOW_CONFIDENCE_THRESHOLD = 0.82;
 
 const FILE_PREFIX: Record<DocumentType, string> = {
@@ -135,5 +137,5 @@ async function tick(): Promise<void> {
 export function startDocumentEngine(): void {
   setInterval(() => {
     tick().catch((err) => console.error('[documents] tick failed:', err));
-  }, clock.scaledInterval(TICK_MS));
+  }, TICK_MS);
 }

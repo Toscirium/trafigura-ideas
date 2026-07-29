@@ -116,7 +116,7 @@ export function DocumentsView() {
               onClick={() => setTab(key)}
               className={clsx(
                 'rounded px-3 py-1.5 font-medium transition-colors',
-                tab === key ? 'bg-line-hairline text-ink-primary' : 'text-ink-secondary hover:text-ink-primary',
+                tab === key ? 'bg-brand/15 text-brand-strong' : 'text-ink-secondary hover:text-ink-primary',
               )}
             >
               {label}
@@ -155,10 +155,10 @@ function DocumentTable({
   onSelect: (id: string) => void;
 }) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-line-hairline">
+    <div className="overflow-x-auto rounded-lg border border-line-hairline bg-surface-card shadow-card">
       <table className="w-full border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-line-hairline bg-surface-card text-xs font-medium uppercase tracking-wide text-ink-muted">
+          <tr className="border-b border-line-hairline bg-surface-raised/60 text-xs font-medium uppercase tracking-wide text-ink-muted">
             <th className="px-3 py-2">Received</th>
             <th className="px-3 py-2">Type</th>
             <th className="px-3 py-2">File</th>
@@ -174,7 +174,7 @@ function DocumentTable({
             <tr
               key={d.id}
               onClick={() => onSelect(d.id)}
-              className="cursor-pointer border-b border-line-hairline last:border-0 hover:bg-surface-card"
+              className="cursor-pointer border-b border-line-hairline last:border-0 hover:bg-surface-raised/50"
             >
               <td className="px-3 py-2 font-sans text-ink-secondary">{new Date(d.receivedAt).toLocaleTimeString()}</td>
               <td className="px-3 py-2 font-sans">{DOC_TYPE_LABEL[d.docType]}</td>

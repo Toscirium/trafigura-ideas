@@ -120,11 +120,11 @@ export function ExposureGrid() {
         </div>
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-line-hairline">
+      <div className="overflow-x-auto rounded-lg border border-line-hairline bg-surface-card shadow-card">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b border-line-hairline bg-surface-card">
+              <tr key={headerGroup.id} className="border-b border-line-hairline bg-surface-raised/60">
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
@@ -149,7 +149,7 @@ export function ExposureGrid() {
                 }}
                 className={clsx(
                   'border-b border-line-hairline last:border-0',
-                  row.getIsGrouped() ? 'bg-surface-card/60 cursor-pointer' : 'cursor-pointer hover:bg-surface-card',
+                  row.getIsGrouped() ? 'bg-surface-raised/40 cursor-pointer' : 'cursor-pointer hover:bg-surface-raised/50',
                 )}
               >
                 {row.getVisibleCells().map((cell) => {

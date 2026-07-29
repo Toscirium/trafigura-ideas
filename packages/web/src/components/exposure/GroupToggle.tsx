@@ -18,7 +18,7 @@ export function GroupToggle({ value, onChange }: { value: GroupKey; onChange: (k
           onClick={() => onChange(opt.key)}
           className={clsx(
             'rounded px-3 py-1.5 font-medium transition-colors',
-            value === opt.key ? 'bg-line-hairline text-ink-primary' : 'text-ink-secondary hover:text-ink-primary',
+            value === opt.key ? 'bg-brand/15 text-brand-strong' : 'text-ink-secondary hover:text-ink-primary',
           )}
         >
           Group by {opt.label}

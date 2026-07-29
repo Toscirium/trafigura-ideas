@@ -13,7 +13,7 @@ export const ISSUING_BANKS: string[] = [
 /** Fictional decoy entities used to simulate sanctions/PEP screening hits — not real listed parties. */
 export const SANCTIONS_WATCHLIST: { name: string; list: SanctionsListType }[] = [
   { name: 'Vostok Trading FZE', list: 'OFAC-SDN' },
-  { name: 'Meridian Shipping Corp', list: 'EU-Consolidated' },
+  { name: 'Osprey Maritime Corp', list: 'EU-Consolidated' },
   { name: 'A. Rurikov', list: 'PEP' },
   { name: 'Solaris Commodities DMCC', list: 'UN-Consolidated' },
   { name: 'Kestrel Maritime Ltd', list: 'Adverse-Media' },

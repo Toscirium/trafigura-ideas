@@ -14,12 +14,12 @@ export function StatTile({ label, value, delta, deltaLabel, sparklineData, accen
   const status: 'gain' | 'loss' | 'neutral' = delta > 0 ? 'gain' : delta < 0 ? 'loss' : 'neutral';
 
   return (
-    <div className="flex flex-col gap-3 rounded-lg border border-line-hairline bg-surface-card p-4">
+    <div className="flex flex-col gap-3 rounded-lg border border-line-hairline bg-surface-card p-4 shadow-card transition-colors hover:border-line-baseline">
       <div className="flex items-center gap-2">
         <span className={clsx('h-2 w-2 rounded-full', accentClassName)} aria-hidden />
         <span className="text-xs font-medium uppercase tracking-wide text-ink-secondary">{label}</span>
       </div>
-      <div className="text-2xl font-semibold text-ink-primary">{value}</div>
+      <div className="font-mono text-2xl font-semibold tabular-nums text-ink-primary">{value}</div>
       <div className="flex items-center justify-between">
         <span
           className={clsx(

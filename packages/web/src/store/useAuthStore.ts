@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import type { AuthUser, LoginResult } from 'shared';
 
 const SERVER_URL = import.meta.env.VITE_SERVER_URL ?? 'http://localhost:4000';
-const STORAGE_KEY = 'vantage-risk-auth';
+const STORAGE_KEY = 'meridian-auth';
 
 interface StoredAuth {
   token: string;

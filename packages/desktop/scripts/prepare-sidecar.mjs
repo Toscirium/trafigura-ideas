@@ -55,7 +55,7 @@ function bundleServer() {
 function writeSidecarPackageJson() {
   writeFileSync(
     path.join(sidecarDist, 'package.json'),
-    JSON.stringify({ name: 'vantage-risk-server', private: true, type: 'module', dependencies: EXTERNAL_DEPS }, null, 2),
+    JSON.stringify({ name: 'meridian-server', private: true, type: 'module', dependencies: EXTERNAL_DEPS }, null, 2),
   );
 }
 

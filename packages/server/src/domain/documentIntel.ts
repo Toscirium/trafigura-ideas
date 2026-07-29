@@ -16,7 +16,7 @@ import type {
   Voyage,
 } from 'shared';
 
-export const TRADING_ENTITY_NAME = 'Vantage Trading SA';
+export const TRADING_ENTITY_NAME = 'Meridian Trading SA';
 
 const RISK_BY_TIER: Record<Counterparty['tier'], 'low' | 'medium' | 'high'> = { A: 'low', B: 'medium', C: 'high' };
 

@@ -17,7 +17,7 @@ export const VESSELS: Vessel[] = [
   { id: 'v-horizon-star', name: 'Horizon Star', imo: '9812345', type: 'VLCC', capacity: 2_000_000, capacityUnit: 'bbl', speedKnots: 15, ownership: 'chartered-in' },
   { id: 'v-atlas-voyager', name: 'Atlas Voyager', imo: '9812346', type: 'Suezmax', capacity: 1_000_000, capacityUnit: 'bbl', speedKnots: 15.5, ownership: 'owned' },
   { id: 'v-cape-endeavour', name: 'Cape Endeavour', imo: '9812347', type: 'Aframax', capacity: 700_000, capacityUnit: 'bbl', speedKnots: 14.5, ownership: 'chartered-in' },
-  { id: 'v-meridian-glory', name: 'Meridian Glory', imo: '9812348', type: 'Panamax', capacity: 60_000, capacityUnit: 'mt', speedKnots: 14, ownership: 'owned' },
+  { id: 'v-zenith-glory', name: 'Zenith Glory', imo: '9812348', type: 'Panamax', capacity: 60_000, capacityUnit: 'mt', speedKnots: 14, ownership: 'owned' },
   { id: 'v-nordic-pride', name: 'Nordic Pride', imo: '9812349', type: 'MR', capacity: 45_000, capacityUnit: 'mt', speedKnots: 14.5, ownership: 'chartered-in' },
   { id: 'v-pacific-crown', name: 'Pacific Crown', imo: '9812350', type: 'LNGC', capacity: 170_000, capacityUnit: 'cbm', speedKnots: 19.5, ownership: 'owned' },
   { id: 'v-southern-cross', name: 'Southern Cross', imo: '9812351', type: 'Aframax', capacity: 750_000, capacityUnit: 'bbl', speedKnots: 14.5, ownership: 'chartered-in' },
@@ -78,7 +78,7 @@ export const VOYAGE_SEEDS: VoyageSeedRow[] = [
     bunkerCostUsd: 410_000, portCostsUsd: 110_000, otherCostsUsd: 35_000,
   },
   {
-    vesselId: 'v-meridian-glory', deskId: 'fuel-oil', commodityId: 'VLSFO', counterpartyId: 'cp-glencore',
+    vesselId: 'v-zenith-glory', deskId: 'fuel-oil', commodityId: 'VLSFO', counterpartyId: 'cp-glencore',
     loadPortId: 'port-singapore', dischargePortId: 'port-santos', transitDays: 22,
     laycanOffsetDays: -5, loadDurationDays: 1, cargoVolume: 60_000, cargoUnit: 'mt',
     freightRateBasis: 'per-unit', freightRateUsd: 58,

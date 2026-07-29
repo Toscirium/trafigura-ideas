@@ -8,8 +8,31 @@
   }
 
   ::selection {
-    background-color: theme('colors.desk.crude');
-    color: theme('colors.ink.primary');
+    background-color: theme('colors.brand.DEFAULT');
+    color: white;
+  }
+
+  * {
+    scrollbar-color: theme('colors.line.baseline') transparent;
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: theme('colors.line.baseline');
+    border-radius: 9999px;
+    border: 2px solid theme('colors.surface.page');
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.brand.DEFAULT');
+    outline-offset: 2px;
   }
 }
 

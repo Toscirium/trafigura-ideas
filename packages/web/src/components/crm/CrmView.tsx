@@ -118,10 +118,10 @@ export function CrmView() {
         />
       </div>
 
-      <div className="overflow-x-auto rounded-lg border border-line-hairline">
+      <div className="overflow-x-auto rounded-lg border border-line-hairline bg-surface-card shadow-card">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-b border-line-hairline bg-surface-card text-xs font-medium uppercase tracking-wide text-ink-muted">
+            <tr className="border-b border-line-hairline bg-surface-raised/60 text-xs font-medium uppercase tracking-wide text-ink-muted">
               <th className="px-3 py-2">Counterparty</th>
               <th className="px-3 py-2">Tier</th>
               <th className="px-3 py-2">Region</th>
@@ -138,7 +138,7 @@ export function CrmView() {
               <tr
                 key={r.counterparty.id}
                 onClick={() => setSelectedId(r.counterparty.id)}
-                className="cursor-pointer border-b border-line-hairline last:border-0 hover:bg-surface-card"
+                className="cursor-pointer border-b border-line-hairline last:border-0 hover:bg-surface-raised/50"
               >
                 <td className="px-3 py-2 font-sans font-medium text-ink-primary">{r.counterparty.name}</td>
                 <td className="px-3 py-2 font-sans">{r.counterparty.tier}</td>

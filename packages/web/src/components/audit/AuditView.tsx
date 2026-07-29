@@ -46,10 +46,10 @@ export function AuditView() {
         className="no-print w-full max-w-sm rounded-md border border-line-hairline bg-surface-card px-3 py-1.5 text-xs text-ink-primary placeholder:text-ink-muted"
       />
 
-      <div className="overflow-x-auto rounded-lg border border-line-hairline">
+      <div className="overflow-x-auto rounded-lg border border-line-hairline bg-surface-card shadow-card">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-b border-line-hairline bg-surface-card text-xs font-medium uppercase tracking-wide text-ink-muted">
+            <tr className="border-b border-line-hairline bg-surface-raised/60 text-xs font-medium uppercase tracking-wide text-ink-muted">
               <th className="px-3 py-2">Time</th>
               <th className="px-3 py-2">User</th>
               <th className="px-3 py-2">Role</th>
