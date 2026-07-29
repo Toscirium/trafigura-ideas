@@ -1,0 +1,49 @@
+{
+  "$schema": "../../../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Vantage Risk",
+  "version": "0.1.0",
+  "identifier": "com.vantagerisk.desktop",
+  "build": {
+    "frontendDist": "../../web/dist",
+    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "npm run dev --prefix ..",
+    "beforeBuildCommand": "npm run build -w web --prefix ../.. && node scripts/prepare-sidecar.mjs"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Vantage Risk",
+        "width": 1440,
+        "height": 900,
+        "minWidth": 1024,
+        "minHeight": 640,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "publisher": "Vantage Risk",
+    "copyright": "Vantage Risk",
+    "category": "Finance",
+    "shortDescription": "Commodity trading floor dashboard",
+    "longDescription": "Exposure, P&L, scheduling, reconciliation, settlement, compliance, and CRM for a commodity trading desk.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "externalBin": ["binaries/server"],
+    "resources": ["sidecar-dist/**/*"],
+    "android": {
+      "debugApplicationIdSuffix": ".debug"
+    }
+  }
+}

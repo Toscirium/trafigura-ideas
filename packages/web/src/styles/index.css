@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-feature-settings: 'ss01' on;
+  }
+
+  ::selection {
+    background-color: theme('colors.desk.crude');
+    color: theme('colors.ink.primary');
+  }
+}
+
+@layer utilities {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  main {
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+  body,
+  .bg-surface-page,
+  .bg-surface-card {
+    background: white !important;
+    color: black !important;
+  }
+}

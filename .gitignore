@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+target/
+gen/
+*.tsbuildinfo
+.idea/
+packages/desktop/src-tauri/binaries/
+packages/desktop/src-tauri/sidecar-dist/
