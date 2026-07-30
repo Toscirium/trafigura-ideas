@@ -1,7 +1,7 @@
 import { VESSELS } from 'shared';
 import type { CasePriority, ComplianceCase, ScreeningEntityType, Trade, Voyage } from 'shared';
 import { counterpartyStore } from '../state/counterpartyStore.js';
-import { currentWatchlist } from './ofacWatchlist.js';
+import { currentWatchlist } from './watchlists.js';
 
 export const COMPLIANCE_OFFICERS = ['Priya Nair', 'Daniel Osei', 'Helena Kruger', 'Ben Whitmore'];
 

@@ -1,4 +1,3 @@
-import { SANCTIONS_WATCHLIST } from 'shared';
 import type { SanctionsListType } from 'shared';
 
 /**
@@ -20,12 +19,6 @@ export interface WatchlistEntry {
 
 let realEntries: WatchlistEntry[] = [];
 let lastLoadedAt = 0;
-
-/** The one fictional entry explicitly labeled 'OFAC-SDN' is dropped once we have the real
- *  list (it'd be misleading to keep a made-up entry under a list type we now source for
- *  real); the other list types (EU/UN-Consolidated, PEP, Adverse-Media) stay fictional —
- *  those aren't simple public downloads the way the SDN list is. */
-const FICTIONAL_NON_SDN: WatchlistEntry[] = SANCTIONS_WATCHLIST.filter((w) => w.list !== 'OFAC-SDN');
 
 /** Minimal parser for this one fixed, well-known schema — not general-purpose CSV. */
 function parseSdnCsv(text: string): WatchlistEntry[] {
@@ -70,8 +63,8 @@ export function startOfacWatchlistSync(): void {
   }, REFRESH_MS);
 }
 
-export function currentWatchlist(): WatchlistEntry[] {
-  return realEntries.length > 0 ? [...realEntries, ...FICTIONAL_NON_SDN] : SANCTIONS_WATCHLIST;
+export function ofacEntries(): WatchlistEntry[] {
+  return realEntries;
 }
 
 export function isUsingRealOfacData(): boolean {

@@ -34,7 +34,7 @@ import { startSettlementEngine } from './sim/settlementEngine.js';
 import { startComplianceEngine } from './sim/complianceEngine.js';
 import { startAlertEngine } from './sim/alertEngine.js';
 import { startPnlHistoryEngine } from './sim/pnlHistoryEngine.js';
-import { startOfacWatchlistSync } from './domain/ofacWatchlist.js';
+import { startWatchlistSync } from './domain/watchlists.js';
 
 const PORT = Number(process.env.PORT ?? 4000);
 // Loopback-only by default — this API has no TLS and ships hardcoded demo credentials,
@@ -65,7 +65,7 @@ async function main() {
   const io = createSocketServer(app.server);
   registerHandlers(io);
 
-  startOfacWatchlistSync();
+  startWatchlistSync();
   startMarketDataEngine();
   startMarketEngine();
   startTradeEngine();
