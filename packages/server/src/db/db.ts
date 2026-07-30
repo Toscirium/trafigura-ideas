@@ -167,6 +167,15 @@ db.exec(`
     netVolume REAL NOT NULL
   );
 
+  CREATE TABLE IF NOT EXISTS refresh_tokens (
+    id TEXT PRIMARY KEY,
+    userId TEXT NOT NULL,
+    tokenHash TEXT NOT NULL UNIQUE,
+    createdAt TEXT NOT NULL,
+    expiresAt TEXT NOT NULL,
+    revokedAt TEXT
+  );
+
   CREATE TABLE IF NOT EXISTS audit_log (
     id TEXT PRIMARY KEY,
     timestamp TEXT NOT NULL,

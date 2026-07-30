@@ -531,6 +531,17 @@ export interface LoginInput {
 
 export interface LoginResult {
   token: string;
+  refreshToken: string;
+  user: AuthUser;
+}
+
+export interface RefreshInput {
+  refreshToken: string;
+}
+
+export interface RefreshResult {
+  token: string;
+  refreshToken: string;
   user: AuthUser;
 }
 

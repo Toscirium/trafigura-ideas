@@ -16,6 +16,29 @@ const SERVER_URL = import.meta.env.VITE_SERVER_URL ?? 'http://localhost:4000';
 
 let socket: Socket | null = null;
 
+/** Peeks at a JWT's `exp` claim without verifying the signature — fine here, we're only
+ *  using our own already-trusted token to decide whether it's worth refreshing before
+ *  connecting, not trusting an untrusted token's claims for anything security-relevant. */
+function isExpiringSoon(token: string, bufferSeconds = 30): boolean {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]!.replace(/-/g, '+').replace(/_/g, '/'))) as { exp?: number };
+    if (!payload.exp) return false;
+    return payload.exp * 1000 - Date.now() < bufferSeconds * 1000;
+  } catch {
+    return false;
+  }
+}
+
+/** The access token is short-lived (15m); a socket connection made with a stale one right
+ *  after page load (e.g. reopening a tab hours later) would fail its handshake auth and
+ *  never come online. Refresh first if the current token won't survive the handshake. */
+async function ensureFreshToken(): Promise<string | null> {
+  const { token, refresh } = useAuthStore.getState();
+  if (!token) return null;
+  if (!isExpiringSoon(token)) return token;
+  return refresh();
+}
+
 export function useSocket(): void {
   const token = useAuthStore((s) => s.token);
   const setConnected = useMarketStore((s) => s.setConnected);
@@ -37,7 +60,12 @@ export function useSocket(): void {
       return;
     }
 
-    socket = io(SERVER_URL, { transports: ['websocket', 'polling'], auth: { token } });
+    // `auth` as a callback runs on every (re)connection attempt, not just the first —
+    // so a reconnect after the access token has since expired also gets a fresh one.
+    socket = io(SERVER_URL, {
+      transports: ['websocket', 'polling'],
+      auth: (cb) => ensureFreshToken().then((freshToken) => cb({ token: freshToken })),
+    });
 
     const onConnect = () => setConnected(true);
     const onDisconnect = () => setConnected(false);

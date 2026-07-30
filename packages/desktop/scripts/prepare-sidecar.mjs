@@ -22,13 +22,18 @@ const EXTERNAL_DEPS = {
   'socket.io': '^4.8.1',
 };
 
-// [rust target triple, node.org platform-arch, sidecar filename]
+// [rust target triple, node.org platform-arch, sidecar filename, archive is a .zip]
 const NODE_TARGETS = [
   ['x86_64-unknown-linux-gnu', 'linux-x64', 'server-x86_64-unknown-linux-gnu', false],
   ['x86_64-pc-windows-msvc', 'win-x64', 'server-x86_64-pc-windows-msvc.exe', true],
   ['x86_64-apple-darwin', 'darwin-x64', 'server-x86_64-apple-darwin', false],
   ['aarch64-apple-darwin', 'darwin-arm64', 'server-aarch64-apple-darwin', false],
 ];
+
+// Only stage the binary(ies) actually needed for this run — set by CI to the current
+// runner's platform so a matrix build doesn't download all 4 (~400MB) every time.
+// Unset (the local/manual default) stages every platform, same as before.
+const ONLY_TARGET_TRIPLE = process.env.SIDECAR_TARGET_TRIPLE;
 const NODE_VERSION = '22.14.0';
 
 function log(msg) {
@@ -93,17 +98,8 @@ async function stageNodeBinary(targetTriple, nodePlatformArch, filename, isZip) 
     return;
   }
 
-  if (targetTriple === 'x86_64-unknown-linux-gnu') {
-    const localNode = path.join(process.env.HOME, '.local', 'opt', 'node', 'bin', 'node');
-    if (!existsSync(localNode)) throw new Error(`local node binary not found at ${localNode}`);
-    copyFileSync(localNode, dest);
-    chmodSync(dest, 0o755);
-    log(`staged ${filename} from local Node install`);
-    return;
-  }
-
-  // Windows/macOS: vendor the official prebuilt binary so a build run on that OS has the
-  // sidecar ready. Cannot be executed or verified from this Linux sandbox.
+  // Vendor the official prebuilt Node binary for every platform from nodejs.org — plain
+  // downloads, no compilation, works the same on any host (dev sandbox or CI runner).
   const ext = isZip ? 'zip' : 'tar.gz';
   const archiveName = `node-v${NODE_VERSION}-${nodePlatformArch}.${ext}`;
   const url = `https://nodejs.org/dist/v${NODE_VERSION}/${archiveName}`;
@@ -137,7 +133,10 @@ async function main() {
   installSidecarDeps();
   pruneNativePrebuilds(path.join(sidecarDist, 'node_modules'));
 
-  for (const [targetTriple, nodePlatformArch, filename, isZip] of NODE_TARGETS) {
+  const targets = ONLY_TARGET_TRIPLE ? NODE_TARGETS.filter(([triple]) => triple === ONLY_TARGET_TRIPLE) : NODE_TARGETS;
+  if (ONLY_TARGET_TRIPLE && targets.length === 0) throw new Error(`SIDECAR_TARGET_TRIPLE=${ONLY_TARGET_TRIPLE} matches no known target`);
+
+  for (const [targetTriple, nodePlatformArch, filename, isZip] of targets) {
     await stageNodeBinary(targetTriple, nodePlatformArch, filename, isZip);
   }
 
