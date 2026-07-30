@@ -1,8 +1,9 @@
-import { COMMODITIES } from 'shared';
+import { COMMODITIES, LIVE_PRICE_COMMODITY_IDS } from 'shared';
 import type { MarketPriceTick } from 'shared';
 import { store } from '../state/store.js';
 import { recalcForCommodity } from '../state/positionAggregator.js';
 import { clock } from './clock.js';
+import { getLivePrice } from './marketDataEngine.js';
 
 const TICK_MS = 1500;
 const MEAN_REVERSION = 0.01;
@@ -23,9 +24,16 @@ function tick(): void {
 
   for (const commodity of COMMODITIES) {
     const prev = currentPrice(commodity.id, commodity.basePrice);
-    const randomStep = prev * commodity.volatility * gaussianRandom();
-    const reversion = (commodity.basePrice - prev) * MEAN_REVERSION;
-    const next = Math.max(0.01, prev + randomStep + reversion);
+    const live = LIVE_PRICE_COMMODITY_IDS.includes(commodity.id) ? getLivePrice(commodity.id) : undefined;
+
+    let next: number;
+    if (live !== undefined) {
+      next = live;
+    } else {
+      const randomStep = prev * commodity.volatility * gaussianRandom();
+      const reversion = (commodity.basePrice - prev) * MEAN_REVERSION;
+      next = Math.max(0.01, prev + randomStep + reversion);
+    }
 
     const priceTick: MarketPriceTick = {
       commodityId: commodity.id,

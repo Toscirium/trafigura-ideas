@@ -23,10 +23,14 @@ fn spawn_backend(app: &tauri::AppHandle) {
         .env("SCHEDULING_DB_PATH", db_path.to_string_lossy().to_string())
         .env("PORT", "4000");
 
-    // Document Intelligence calls the real Claude API — forward the host's key if set.
-    // The bundled sidecar has no .env file of its own (see index.ts's dev-only .env loader).
+    // Document Intelligence calls the real Claude API, and the market ticker calls the
+    // real Massive API — forward the host's keys if set. The bundled sidecar has no .env
+    // file of its own (see index.ts's dev-only .env loader).
     if let Ok(api_key) = std::env::var("ANTHROPIC_API_KEY") {
         command = command.env("ANTHROPIC_API_KEY", api_key);
+    }
+    if let Ok(api_key) = std::env::var("MASSIVE_API_KEY") {
+        command = command.env("MASSIVE_API_KEY", api_key);
     }
 
     let (_rx, child) = command.spawn().expect("spawn server sidecar");

@@ -1,6 +1,7 @@
-import { SANCTIONS_WATCHLIST, VESSELS } from 'shared';
+import { VESSELS } from 'shared';
 import type { CasePriority, ComplianceCase, ScreeningEntityType, Trade, Voyage } from 'shared';
 import { counterpartyStore } from '../state/counterpartyStore.js';
+import { currentWatchlist } from './ofacWatchlist.js';
 
 export const COMPLIANCE_OFFICERS = ['Priya Nair', 'Daniel Osei', 'Helena Kruger', 'Ben Whitmore'];
 
@@ -33,7 +34,7 @@ export function buildScreeningHit(
   trades: readonly Trade[],
   voyages: readonly Voyage[],
 ): Pick<ComplianceCase, 'entityType' | 'entityId' | 'entityName' | 'listType' | 'matchedName' | 'matchScore' | 'priority' | 'relatedTradeId' | 'relatedVoyageId'> {
-  const watch = pick(SANCTIONS_WATCHLIST);
+  const watch = pick(currentWatchlist());
   const matchScore = Math.round(55 + Math.random() * 40);
   const priority = priorityForScore(matchScore);
 

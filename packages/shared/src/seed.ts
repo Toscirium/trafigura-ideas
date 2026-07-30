@@ -36,3 +36,11 @@ export const COUNTERPARTIES: Counterparty[] = [
 export function commoditiesForDesk(deskId: string): Commodity[] {
   return COMMODITIES.filter((c) => c.deskId === deskId);
 }
+
+/**
+ * Commodity IDs backed by real futures market data (Massive API) rather than the
+ * simulated random walk — see server/src/domain/massiveMarketData.ts. The other four
+ * (DUBAI, HSFO, VLSFO, LNG-ASIA) have listed products on the same exchange family but no
+ * populated trade/quote data under the current API key's plan, so they stay simulated.
+ */
+export const LIVE_PRICE_COMMODITY_IDS: string[] = ['BRENT', 'WTI', 'COPPER', 'ALUMINIUM', 'ZINC', 'LNG-EU'];

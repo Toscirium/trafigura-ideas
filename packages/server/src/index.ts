@@ -25,6 +25,7 @@ import { seedUsersIfEmpty } from './domain/userSeed.js';
 import { createSocketServer } from './ws/socket.js';
 import { registerHandlers } from './ws/handlers.js';
 import { startMarketEngine } from './sim/marketEngine.js';
+import { startMarketDataEngine } from './sim/marketDataEngine.js';
 import { startTradeEngine } from './sim/tradeEngine.js';
 import { startPortCongestionEngine } from './sim/portCongestionEngine.js';
 import { startConfirmationEngine } from './sim/confirmationEngine.js';
@@ -33,6 +34,7 @@ import { startSettlementEngine } from './sim/settlementEngine.js';
 import { startComplianceEngine } from './sim/complianceEngine.js';
 import { startAlertEngine } from './sim/alertEngine.js';
 import { startPnlHistoryEngine } from './sim/pnlHistoryEngine.js';
+import { startOfacWatchlistSync } from './domain/ofacWatchlist.js';
 
 const PORT = Number(process.env.PORT ?? 4000);
 // Loopback-only by default — this API has no TLS and ships hardcoded demo credentials,
@@ -63,6 +65,8 @@ async function main() {
   const io = createSocketServer(app.server);
   registerHandlers(io);
 
+  startOfacWatchlistSync();
+  startMarketDataEngine();
   startMarketEngine();
   startTradeEngine();
   startPortCongestionEngine();

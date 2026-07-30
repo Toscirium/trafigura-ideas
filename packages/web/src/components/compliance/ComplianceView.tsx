@@ -56,7 +56,13 @@ export function ComplianceView() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Compliance &amp; Sanctions Screening</h1>
+        <div>
+          <h1 className="text-lg font-semibold">Compliance &amp; Sanctions Screening</h1>
+          <p className="mt-0.5 flex items-center gap-1.5 text-[11px] text-ink-muted">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand" aria-hidden />
+            Screened against the real OFAC SDN list (~19k entries) · EU/UN/PEP/Adverse-Media lists are simulated
+          </p>
+        </div>
         <div className="flex items-center gap-2">
           <ExportCsvButton filename="compliance-cases" rows={csvRows} />
           <PrintButton />
