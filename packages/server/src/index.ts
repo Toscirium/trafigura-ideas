@@ -10,7 +10,6 @@ import { buildApp } from './app.js';
 import { seedUsersIfEmpty } from './domain/userSeed.js';
 import { createSocketServer } from './ws/socket.js';
 import { registerHandlers } from './ws/handlers.js';
-import { startMarketEngine } from './sim/marketEngine.js';
 import { startMarketDataEngine } from './sim/marketDataEngine.js';
 import { startTradeEngine } from './sim/tradeEngine.js';
 import { startPortCongestionEngine } from './sim/portCongestionEngine.js';
@@ -37,7 +36,6 @@ async function main() {
 
   startWatchlistSync();
   startMarketDataEngine();
-  startMarketEngine();
   startTradeEngine();
   startPortCongestionEngine();
   startConfirmationEngine();

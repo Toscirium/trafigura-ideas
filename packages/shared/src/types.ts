@@ -11,7 +11,6 @@ export interface Commodity {
   deskId: DeskId;
   unit: 'bbl' | 'mt' | 'MMBtu';
   basePrice: number;
-  volatility: number;
   currency: 'USD';
 }
 
@@ -55,6 +54,9 @@ export interface MarketPriceTick {
   change: number;
   changePct: number;
   timestamp: string;
+  /** Where this real price came from. Futures data (massive) refreshes ~every minute;
+   *  spot/index data (oilpriceapi) refreshes every few hours and may be more delayed. */
+  source: 'massive' | 'oilpriceapi';
 }
 
 export interface SnapshotPayload {
