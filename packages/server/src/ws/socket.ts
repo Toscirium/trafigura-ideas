@@ -2,6 +2,7 @@ import type { Server as HttpServer } from 'node:http';
 import { Server } from 'socket.io';
 import type { AuthUser } from 'shared';
 import { verifyToken } from '../domain/auth.js';
+import { isOriginAllowed } from '../security/corsOrigins.js';
 
 declare module 'socket.io' {
   interface Socket {
@@ -11,7 +12,7 @@ declare module 'socket.io' {
 
 export function createSocketServer(httpServer: HttpServer): Server {
   const io = new Server(httpServer, {
-    cors: { origin: '*' },
+    cors: { origin: (origin, cb) => cb(null, isOriginAllowed(origin)) },
   });
 
   io.use((socket, next) => {

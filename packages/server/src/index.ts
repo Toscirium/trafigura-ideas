@@ -3,6 +3,9 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import rateLimit from '@fastify/rate-limit';
+import helmet from '@fastify/helmet';
+import { isOriginAllowed } from './security/corsOrigins.js';
 
 // Load packages/server/.env (gitignored) before anything reads process.env — mainly ANTHROPIC_API_KEY.
 const envPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '.env');
@@ -32,12 +35,17 @@ import { startAlertEngine } from './sim/alertEngine.js';
 import { startPnlHistoryEngine } from './sim/pnlHistoryEngine.js';
 
 const PORT = Number(process.env.PORT ?? 4000);
+// Loopback-only by default — this API has no TLS and ships hardcoded demo credentials,
+// so it shouldn't be reachable from other devices on the network unless explicitly opted in.
+const HOST = process.env.HOST ?? '127.0.0.1';
 
 async function main() {
   seedUsersIfEmpty();
 
   const app = Fastify({ logger: true });
-  await app.register(cors, { origin: '*' });
+  await app.register(cors, { origin: (origin, cb) => cb(null, isOriginAllowed(origin)) });
+  await app.register(helmet);
+  await app.register(rateLimit, { max: 300, timeWindow: '1 minute' });
   registerSnapshotRoute(app);
   registerSchedulingRoutes(app);
   registerReconciliationRoutes(app);
@@ -65,7 +73,7 @@ async function main() {
   startAlertEngine();
   startPnlHistoryEngine();
 
-  await app.listen({ port: PORT, host: '0.0.0.0' });
+  await app.listen({ port: PORT, host: HOST });
 }
 
 main().catch((err) => {

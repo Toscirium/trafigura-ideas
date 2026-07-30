@@ -9,16 +9,20 @@ function toAuthUser(row: { id: string; username: string; displayName: string; ro
 }
 
 export function registerAuthRoutes(app: FastifyInstance): void {
-  app.post<{ Body: LoginInput }>('/api/auth/login', async (req, reply) => {
-    const { username, password } = req.body;
-    const row = userRepo.getUserByUsername(username);
-    if (!row || !verifyPassword(password, row.passwordHash)) {
-      reply.code(401);
-      return { error: 'Invalid username or password' };
-    }
-    const user = toAuthUser(row);
-    return { token: signToken(user), user };
-  });
+  app.post<{ Body: LoginInput }>(
+    '/api/auth/login',
+    { config: { rateLimit: { max: 8, timeWindow: '1 minute' } } },
+    async (req, reply) => {
+      const { username, password } = req.body;
+      const row = userRepo.getUserByUsername(username);
+      if (!row || !verifyPassword(password, row.passwordHash)) {
+        reply.code(401);
+        return { error: 'Invalid username or password' };
+      }
+      const user = toAuthUser(row);
+      return { token: signToken(user), user };
+    },
+  );
 
   app.get('/api/auth/me', { preHandler: authenticate }, async (req) => {
     return { user: req.user };

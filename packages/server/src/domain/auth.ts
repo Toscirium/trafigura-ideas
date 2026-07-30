@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import type { AuthUser } from 'shared';
@@ -10,11 +11,7 @@ const TOKEN_TTL = '12h';
  * this single-instance demo (restarting the server invalidates sessions),
  * but a real deployment should pin JWT_SECRET so tokens survive a restart.
  */
-const JWT_SECRET = process.env.JWT_SECRET ?? cryptoRandomSecret();
-
-function cryptoRandomSecret(): string {
-  return Array.from({ length: 32 }, () => Math.floor(Math.random() * 256).toString(16).padStart(2, '0')).join('');
-}
+const JWT_SECRET = process.env.JWT_SECRET ?? randomBytes(32).toString('hex');
 
 export function hashPassword(password: string): string {
   return bcrypt.hashSync(password, SALT_ROUNDS);
